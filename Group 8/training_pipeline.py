@@ -49,17 +49,17 @@ class ElderAssistanceDataset(Dataset):
         self.transform = transform
         self.tasks = tasks or ['all']
         
-        self.images_path = os.path.join(data_root, 'images', split)
+        self.images_path = os.path.join(data_root, 'dataset', split)
+        print("[+] self.images_path:", self.images_path)
         self.annotations_path = os.path.join(data_root, 'annotations')
         
         # Load image paths
-        self.image_paths = []
-        for ext in ['*.jpg', '*.jpeg', '*.png']:
-            self.image_paths.extend(
-                [os.path.join(self.images_path, f) 
-                 for f in os.listdir(self.images_path) 
-                 if f.lower().endswith(ext[1:])]
-            )
+        self.image_paths = [
+            os.path.join(self.images_path, f)
+            for f in os.listdir(self.images_path)
+            if f.lower().endswith(('.jpg', '.jpeg', '.png'))
+        ]
+        print("[+] self.image_paths:", self.image_paths)
         
         # Load annotations
         self.annotations = self._load_annotations()
@@ -421,7 +421,7 @@ def main():
     
     # Configuration
     config = {
-        'data_root': 'path/to/your/dataset',  # Update this path
+        'data_root': '/Users/ryanh./CQU-models/Group 8/',  # Update this path
         'batch_size': 16,
         'epochs': 100,
         'learning_rate': 0.001,
